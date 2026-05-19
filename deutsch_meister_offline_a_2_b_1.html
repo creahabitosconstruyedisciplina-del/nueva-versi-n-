@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deutsch Meister · Offline Edition</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:Arial, sans-serif;
+      background:#10131a;
+      color:#f5f5f5;
+      display:flex;
+      min-height:100vh;
+    }
+
+    aside{
+      width:320px;
+      background:#171c26;
+      border-right:1px solid #2b3242;
+      padding:24px;
+      overflow-y:auto;
+    }
+
+    main{
+      flex:1;
+      padding:32px;
+      overflow-y:auto;
+    }
+
+    h1{
+      color:#f3c44d;
+      margin-bottom:8px;
+    }
+
+    .subtitle{
+      color:#9ca3af;
+      margin-bottom:28px;
+    }
+
+    .level-title{
+      margin:24px 0 12px;
+      color:#f3c44d;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    .lesson-btn{
+      width:100%;
+      text-align:left;
+      background:#1f2633;
+      border:1px solid #31394b;
+      color:white;
+      padding:14px;
+      border-radius:12px;
+      margin-bottom:12px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .lesson-btn:hover,
+    .lesson-btn.active{
+      border-color:#f3c44d;
+      background:#252f42;
+    }
+
+    .lesson-btn small{
+      display:block;
+      color:#9ca3af;
+      margin-top:6px;
+    }
+
+    .card{
+      background:#171c26;
+      border:1px solid #2b3242;
+      border-radius:18px;
+      padding:24px;
+      margin-bottom:24px;
+    }
+
+    .badge{
+      display:inline-block;
+      background:#f3c44d;
+      color:#111827;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:16px;
+    }
+
+    h2{
+      margin-bottom:18px;
+      color:#f3c44d;
+    }
+
+    p{
+      line-height:1.7;
+    }
+
+    .vocab-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:16px;
+    }
+
+    .vocab-item{
+      background:#202838;
+      border-radius:14px;
+      padding:16px;
+      border:1px solid #374151;
+    }
+
+    .word{
+      color:#f3c44d;
+      font-weight:bold;
+      margin-bottom:8px;
+      font-size:18px;
+    }
+
+    .exercise{
+      background:#202838;
+      border-radius:14px;
+      padding:18px;
+      margin-bottom:16px;
+    }
+
+    .exercise h4{
+      margin-bottom:12px;
+      color:#f3c44d;
+    }
+
+    .exercise details{
+      margin-top:10px;
+    }
+
+    .grammar-box{
+      background:#202838;
+      border-left:4px solid #f3c44d;
+      padding:16px;
+      border-radius:10px;
+      margin-top:16px;
+    }
+
+    ul{
+      padding-left:20px;
+      line-height:1.8;
+    }
+
+    @media(max-width:900px){
+      body{flex-direction:column}
+      aside{width:100%;border-right:none;border-bottom:1px solid #2b3242}
+    }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <h1>🇩🇪 Deutsch Meister</h1>
+    <div class="subtitle">Curso offline A2 → B1</div>
+
+    <div id="menu"></div>
+  </aside>
+
+  <main>
+    <div id="content"></div>
+  </main>
+
+<script>
+
+const lessons = [
+  {
+    level: 'A2',
+    title: 'La vida diaria y rutinas',
+    grammar: 'Verbos separables en presente',
+    readingTitle: 'Ein normaler Tag',
+    reading: 'Anna steht um sieben Uhr auf. Sie duscht und zieht sich an. Danach frühstückt sie mit ihrer Familie. Um acht Uhr fährt sie zur Arbeit. Am Abend kauft sie im Supermarkt ein und sieht fern.',
+    readingQuestions: [
+      '¿A qué hora se levanta Anna?',
+      '¿Qué hace después de ducharse?',
+      '¿Qué hace por la noche?'
+    ],
+    grammarText: 'En alemán algunos verbos se separan cuando se conjugan. El prefijo va al final de la frase.',
+    grammarExamples: [
+      'aufstehen → Ich stehe um 7 Uhr auf.',
+      'einkaufen → Wir kaufen heute ein.',
+      'fernsehen → Er sieht am Abend fern.'
+    ],
+    vocabulary: [
+      { de:'aufstehen', es:'levantarse' },
+      { de:'frühstücken', es:'desayunar' },
+      { de:'arbeiten', es:'trabajar' },
+      { de:'einkaufen', es:'comprar' },
+      { de:'fernsehen', es:'ver la televisión' },
+      { de:'der Supermarkt', es:'supermercado' }
+    ],
+    exercises:[
+      'Escribe una frase con “aufstehen”.',
+      'Traduce: “Yo compro por la tarde”.',
+      'Completa: Ich _____ um 8 Uhr auf.'
+    ]
+  },
+
+  {
+    level: 'A2',
+    title: 'Compras y comida',
+    grammar: 'Akkusativ y artículos',
+    readingTitle: 'Im Restaurant',
+    reading: 'Tom bestellt eine Suppe und einen Salat. Seine Freundin nimmt das Hähnchen mit Reis. Danach trinken sie einen Kaffee. Das Essen ist sehr lecker.',
+    readingQuestions: [
+      '¿Qué pide Tom?',
+      '¿Qué bebe la pareja?',
+      '¿Cómo está la comida?'
+    ],
+    grammarText: 'El acusativo cambia algunos artículos masculinos: der → den, ein → einen.',
+    grammarExamples: [
+      'Ich kaufe den Käse.',
+      'Er trinkt einen Kaffee.',
+      'Wir essen das Brot.'
+    ],
+    vocabulary: [
+      { de:'bestellen', es:'pedir' },
+      { de:'die Suppe', es:'sopa' },
+      { de:'der Salat', es:'ensalada' },
+      { de:'das Essen', es:'comida' },
+      { de:'lecker', es:'delicioso' },
+      { de:'trinken', es:'beber' }
+    ],
+    exercises:[
+      'Traduce: “Él bebe un café”.',
+      'Escribe tres comidas en alemán.',
+      'Completa: Ich esse ___ Apfel.'
+    ]
+  },
+
+  {
+    level: 'B1',
+    title: 'Trabajo y profesión',
+    grammar: 'Oraciones relativas',
+    readingTitle: 'Mein neuer Beruf',
+    reading: 'Markus arbeitet in einer Firma, die Autos produziert. Seine Kollegin, die aus Österreich kommt, spricht sehr gut Englisch. Markus sucht jetzt eine Stelle, die besser bezahlt ist.',
+    readingQuestions: [
+      '¿Dónde trabaja Markus?',
+      '¿De dónde es su compañera?',
+      '¿Qué busca Markus?'
+    ],
+    grammarText: 'Las oraciones relativas añaden información sobre una persona o cosa usando pronombres relativos.',
+    grammarExamples: [
+      'Der Mann, der dort sitzt, ist mein Chef.',
+      'Das Buch, das ich lese, ist interessant.',
+      'Die Frau, die Deutsch spricht, kommt aus Berlin.'
+    ],
+    vocabulary: [
+      { de:'die Firma', es:'empresa' },
+      { de:'der Beruf', es:'profesión' },
+      { de:'der Kollege', es:'compañero' },
+      { de:'die Stelle', es:'puesto de trabajo' },
+      { de:'bezahlt', es:'pagado' },
+      { de:'produzieren', es:'producir' }
+    ],
+    exercises:[
+      'Une las frases usando “der/die/das”.',
+      'Describe tu trabajo ideal en alemán.',
+      'Escribe una oración relativa con “die Frau”.'
+    ]
+  },
+
+  {
+    level: 'B1',
+    title: 'Salud y bienestar',
+    grammar: 'Konjunktiv II para consejos',
+    readingTitle: 'Beim Arzt',
+    reading: 'Lisa fühlt sich nicht gut. Der Arzt sagt, sie sollte mehr schlafen und weniger Stress haben. Außerdem empfiehlt er ihr, mehr Wasser zu trinken und Sport zu machen.',
+    readingQuestions: [
+      '¿Cómo se siente Lisa?',
+      '¿Qué recomienda el médico?',
+      '¿Qué debería beber más?'
+    ],
+    grammarText: 'Konjunktiv II se usa para dar consejos y expresar situaciones hipotéticas.',
+    grammarExamples: [
+      'Du solltest mehr schlafen.',
+      'Ich würde mehr Sport machen.',
+      'An deiner Stelle würde ich zum Arzt gehen.'
+    ],
+    vocabulary: [
+      { de:'der Arzt', es:'médico' },
+      { de:'schlafen', es:'dormir' },
+      { de:'der Stress', es:'estrés' },
+      { de:'empfehlen', es:'recomendar' },
+      { de:'gesund', es:'saludable' },
+      { de:'das Wasser', es:'agua' }
+    ],
+    exercises:[
+      'Da un consejo usando “sollte”.',
+      'Traduce: “Yo haría más deporte”.',
+      'Escribe tres hábitos saludables en alemán.'
+    ]
+  }
+];
+
+const menu = document.getElementById('menu');
+const content = document.getElementById('content');
+
+function renderMenu(){
+  const grouped = {
+    A2: lessons.filter(l => l.level === 'A2'),
+    B1: lessons.filter(l => l.level === 'B1')
+  };
+
+  menu.innerHTML = '';
+
+  Object.keys(grouped).forEach(level => {
+    const title = document.createElement('div');
+    title.className = 'level-title';
+    title.textContent = level;
+    menu.appendChild(title);
+
+    grouped[level].forEach((lesson, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'lesson-btn';
+      btn.innerHTML = `
+        <strong>${lesson.title}</strong>
+        <small>${lesson.grammar}</small>
+      `;
+
+      btn.onclick = () => {
+        document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderLesson(lesson);
+      };
+
+      menu.appendChild(btn);
+
+      if(level === 'A2' && index === 0){
+        btn.classList.add('active');
+      }
+    });
+  });
+}
+
+function renderLesson(lesson){
+  content.innerHTML = `
+
+    <div class="badge">Nivel ${lesson.level}</div>
+
+    <div class="card">
+      <h2>${lesson.title}</h2>
+      <p>
+        Esta lección está diseñada para crear una progresión real desde A2 hasta B1.
+        Cada tema trabaja vocabulario, gramática y comprensión lectora relacionada con situaciones reales.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>📚 Vocabulario del tema</h2>
+
+      <div class="vocab-grid">
+        ${lesson.vocabulary.map(v => `
+          <div class="vocab-item">
+            <div class="word">${v.de}</div>
+            <div>${v.es}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📖 Comprensión lectora</h2>
+
+      <h3 style="margin-bottom:12px">${lesson.readingTitle}</h3>
+
+      <p>${lesson.reading}</p>
+
+      <div class="grammar-box">
+        <strong>Preguntas de comprensión:</strong>
+        <ul>
+          ${lesson.readingQuestions.map(q => `<li>${q}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📐 Gramática</h2>
+
+      <p>${lesson.grammarText}</p>
+
+      <div class="grammar-box">
+        <strong>${lesson.grammar}</strong>
+        <ul>
+          ${lesson.grammarExamples.map(ex => `<li>${ex}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>✏️ Ejercicios</h2>
+
+      ${lesson.exercises.map((ex,i) => `
+        <div class="exercise">
+          <h4>Ejercicio ${i+1}</h4>
+          <p>${ex}</p>
+
+          <details>
+            <summary>Mostrar ejemplo de respuesta</summary>
+            <p style="margin-top:10px;color:#d1d5db">
+              Respuesta libre orientada al nivel ${lesson.level}.
+            </p>
+          </details>
+        </div>
+      `).join('')}
+    </div>
+
+  `;
+}
+
+renderMenu();
+renderLesson(lessons[0]);
+
+</script>
+
+</body>
+</html>
